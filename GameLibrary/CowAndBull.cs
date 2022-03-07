@@ -12,22 +12,28 @@ namespace GamesLibrary
         readonly int wordLength =4;
         public CowAndBull()
         {
-            //try
-            //{
+            try
+            {
                 hiddenWordsQueue = wordsBL.CreateWordQueueFromDB();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.Message);
-            //    Debug.WriteLine(ex.StackTrace);
-            //    Console.WriteLine("Sorry, program can't get words from DB");
-            //}
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
+                Console.WriteLine("Sorry, program can't get words from DB");
+            }
         }
         void setWord()
         {
             Console.WriteLine($"Please enter the word ({wordLength} chars only): ");
             string hiddenWord = takeNCharFromConsole(wordLength).ToLower();
-            hiddenWordsQueue.Enqueue(wordsBL.AddWord(hiddenWord));
+            HiddenWord newWord = wordsBL.AddWord(hiddenWord);
+            if (newWord == null)
+            {
+                Console.WriteLine("This word is already in queue");
+                return;
+            }
+            hiddenWordsQueue.Enqueue(newWord);
             Console.WriteLine("Thank you, the word has added to the queue");
         }
         void guessWord()

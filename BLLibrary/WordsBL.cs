@@ -21,6 +21,10 @@ namespace BLLibrary
             try
             {
                 int id = wordDA.AddWordToDB(word);
+                if (id == -1)
+                {
+                    return null;
+                }
                 return new HiddenWord(id, word);
             }
             catch(Exception ex)
